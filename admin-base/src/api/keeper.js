@@ -2,57 +2,57 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/user/login',
+    url: '/keeper/login',
     method: 'post',
     data
   })
 }
 export function queryCondition(data) {
   return request({
-    url: '/user/queryCondition',
+    url: '/keeper/queryCondition',
     method: 'post',
     data
   })
 }
-export function getAllUser(data) {
+export function getAllKeeper(data) {
   return request({
-    url: '/user/getAllUser',
+    url: '/keeper/getAllKeeper',
     method: 'post',
     data
   })
 }
 export function getOrder(data) {
   return request({
-    url: '/user/getOrder',
+    url: '/keeper/getOrder',
     method: 'post',
     data
   })
 }
 export function getAppointment(data) {
   return request({
-    url: '/user/getAppointment',
+    url: '/keeper/getAppointment',
     method: 'post',
     data
   })
 }
-export function updateUser(data) {
+export function updateKeeper(data) {
   return request({
-    url: '/user/updateUser',
+    url: '/keeper/updateKeeper',
     method: 'post',
     data
   })
 }
 
-export function deleteUser(data) {
+export function deleteKeeper(data) {
   return request({
-    url: `/user/deleteUser/${data}`,
+    url: `/keeper/deleteKeeper/${data}`,
     method: 'post',
   })
 }
 
 export function getInfo(token) {
   return request({
-    url: `/user/queryId/${token}`,
+    url: `/keeper/queryId/${token}`,
     method: 'get',
     
   })
@@ -60,7 +60,7 @@ export function getInfo(token) {
 
 export function logout() {
   return request({
-    url: '/user/logout',
+    url: '/keeper/logout',
     method: 'post'
   })
 }

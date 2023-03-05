@@ -28,7 +28,7 @@ import '@/permission' // permission control
 //   mockXHR()
 // }
 
-axios.defaults.baseURL = 'http://localhost:8888';
+axios.defaults.baseURL = 'http://localhost:8086';
 Vue.prototype.$axios = axios;
 
 Vue.use(ElementUI)

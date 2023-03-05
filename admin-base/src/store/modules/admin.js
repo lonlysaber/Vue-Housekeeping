@@ -38,7 +38,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ adminName: username.trim(), adminPwd: password }).then(response => {
         const { data } = response
-        console.log(data)
         commit('SET_TOKEN', data.adminId)
         
         setToken(data.adminId)
@@ -55,16 +54,16 @@ const actions = {
     return new Promise((resolve, reject) => {
         
       getInfo(state.token).then(response => {
-        const { data } = response.data
-        
+        const data  = response.data
         if (!data) {
           return reject('验证失败，请尝试再次登录。')
         }
 
-        const [name, avatar ] = [data.userName,data.avatar]
+        const [name,avatar] = [data.adminName,data.adminPwd]
 
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        
         resolve(data)
       }).catch(error => {
         reject(error)

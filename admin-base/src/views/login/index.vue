@@ -118,8 +118,7 @@ export default {
         if (valid) {
           this.loading = true
           // 调取store里的登录
-          this.$store.dispatch('user/login', this.loginForm).then((res) => {
-            console.log(res)
+          this.$store.dispatch('admin/login', this.loginForm).then((res) => {
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
           }).catch(() => {

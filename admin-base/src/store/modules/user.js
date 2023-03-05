@@ -1,6 +1,9 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo,
+  getAllUser,queryCondition,getOrder,
+  getAppointment,updateUser,deleteUser} from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+
 
 const getDefaultState = () => {
   return {
@@ -48,6 +51,27 @@ const actions = {
       })
     })
   },
+  // 分页查询用户
+  getAllUser({commit},data){
+    return new Promise((resolve,reject)=>{
+        getAllUser(data).then(res=>{
+          resolve(res)
+        }).catch(err=>{
+          reject(err)
+        })
+    })
+  },
+  // 条件查询
+  queryCondition({commit},data){
+    return new Promise((resolve,reject)=>{
+        queryCondition(data).then(res=>{
+          
+          resolve(res)
+        }).catch(err=>{
+          reject(err)
+        })
+    })
+  },
 
   // 获取用户信息
   getInfo({ commit, state }) {
@@ -55,12 +79,7 @@ const actions = {
 
       getInfo(state.token).then(response => {
         const { data } = response.data
-        // const data = {
-        //     roles: ['admin'],
-        //     introduction: 'I am a super administrator',
-        //     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-        //     name: 'Super Admin'
-        // }
+        
         if (!data) {
           return reject('验证失败，请尝试再次登录。')
         }
@@ -72,6 +91,50 @@ const actions = {
         resolve(data)
       }).catch(error => {
         reject(error)
+      })
+    })
+  },
+
+  // 获取用户订单
+  getOrder({commit},data){
+    return new Promise((resolve,reject)=>{
+      getOrder(data).then(res=>{
+        resolve(res)
+      }).catch(err=>{
+        reject(err)
+      })
+    })
+  },
+
+  // 获取用户预约
+  getAppointment({commit},data){
+    return new Promise((resolve,reject)=>{
+      getAppointment(data).then(res=>{
+        resolve(res)
+      }).catch(err=>{
+        reject(err)
+      })
+    })
+  },
+
+  // 修改用户信息
+  updateUser({commit},data){
+    return new Promise((resolve,reject)=>{
+      updateUser(data).then(res=>{
+        resolve(res)
+      }).catch(err=>{
+        reject(err)
+      })
+    })
+  },
+
+  // 删除用户
+  deleteUser({commit},data){
+    return new Promise((resolve,rejece)=>{
+      deleteUser(data).then(res=>{
+        resolve(res)
+      }).catch(err=>{
+        rejece(err)
       })
     })
   },
