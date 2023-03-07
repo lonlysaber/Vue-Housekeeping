@@ -1,20 +1,34 @@
 import request from '@/utils/request'
 
-export function list() {
+
+export function queryCondition(data) {
   return request({
-    url: '/order/list',
-    method: 'get'
+    url: '/order/queryCondition',
+    method: 'post',
+    data
+  })
+}
+export function getAllOrder(data) {
+  return request({
+    url: '/order/getAllOrder',
+    method: 'post',
+    data
   })
 }
 
-export function update(id, status) {
-  console.log(id + status)
+
+export function updateOrder(data) {
   return request({
-    url: '/order/update',
+    url: '/order/updateOrder',
     method: 'post',
-    data: {
-      id,
-      status
-    }
+    data
   })
 }
+
+export function deleteOrder(data) {
+  return request({
+    url: `/order/deleteOrder/${data}`,
+    method: 'post',
+  })
+}
+

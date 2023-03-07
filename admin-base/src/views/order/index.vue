@@ -8,12 +8,12 @@
               <el-tab-pane name="待支付">
                   <span slot="label"> 待支付 </span>
               </el-tab-pane>
-              <el-tab-pane name="待发货">
+              <!-- <el-tab-pane name="待发货">
                   <span slot="label"> 待发货 </span>
               </el-tab-pane>
               <el-tab-pane name="待收货">
                   <span slot="label"> 待收货 </span>
-              </el-tab-pane>
+              </el-tab-pane> -->
               <el-tab-pane name="待评价">
                   <span slot="label"> 待评价 </span>
               </el-tab-pane>
@@ -25,33 +25,33 @@
               </el-tab-pane>
           </el-tabs>
           <div class="orderTar">
-              <div style="width:40%">
-                  宝贝
+              <div style="width:40%;text-align:center;">
+                  服务
               </div>
               <div>
-                  单价
+                  用户
               </div>
               <div>
-                  数量
+                  服务人员
               </div>
               <div>
-                  商品操作
+                  评论状态
               </div>
               <div>
                   实付款
               </div>
               <div>
-                  交易状态
+                  支付状态
               </div>
               <div>
                   交易操作
               </div>
           </div>
           <div class="product" v-for="o in orderList" :key="o.orderId"
-          :style="o.orderStatus !='已收货' ?'border: 2px #daf3ff solid;':'border: 2px #f1f1f1 solid;'">
-              <div class="header" :style="o.orderStatus !='已收货' ?'background-color: #eaf8ff;':'background-color: #f1f1f1;'">
+          :style="o.status !='已收货' ?'border: 2px #daf3ff solid;':'border: 2px #f1f1f1 solid;'">
+              <div class="header" :style="o.status !='已收货' ?'background-color: #eaf8ff;':'background-color: #f1f1f1;'">
                   <div style="font-weight: 600;">
-                      {{o.createTime}}
+                      创建时间：{{o.createTime|datefmt('YYYY-MM-DD HH:mm:ss')}}
                   </div>
                   <div>
                       订单号：{{o.orderId}}
@@ -59,22 +59,23 @@
               </div>
               <div class="main">
                   <div style="width:40%">
-                      <img :src="o.productDto.img.img1" alt="">
+                      <!-- <img :src="o.productDto.img.img1" alt=""> -->
                       <div style="float: right;width: 60%;overflow: hidden;
-                      margin-right: 20px;
+                          margin-right: 20px;
                           text-overflow: ellipsis;
                           display: -webkit-box;
                           -webkit-line-clamp: 2;
                           word-break: break-all;
                           -webkit-box-orient: vertical;" >
-                          <a href="">{{o.productDto.productName}}</a>
+                          
+                          <!-- <a href="">{{o.productDto.productName}}</a> -->
                       </div>
                   </div>
                   <div>
-                      ￥{{o.productDto.productPrice}}
+                      <!-- ￥{{o.productDto.productPrice}} -->
                   </div>
                   <div>
-                      {{o.productCount}}
+                      <!-- {{o.productCount}} -->
                   </div>
                   <div>
                       <a href="#">申请售后<br/></a>
@@ -84,17 +85,28 @@
                       实付款
                   </div>
                   <div>
-                      {{o.orderStatus}}
+                      {{o.status}}
                       <!-- <a href="#">交易成功<br/></a>
                       <a href="#">订单详情<br/></a>
                       <a href="#">查看物流</a> -->
                   </div>
                   <div>
-                      <el-button type="primary" size="mini" v-if="o.orderStatus !='已收货'">确认收货</el-button>
-                      <el-button size="mini" v-if="o.orderStatus =='已收货'">评价</el-button><br/>
-                      <a href="#" v-if="o.orderStatus =='已收货'">申请开票</a>
+                      <el-button type="primary" size="mini" v-if="o.status !='已收货'">确认收货</el-button>
+                      <el-button size="mini" v-if="o.status =='已收货'">评价</el-button><br/>
+                      <a href="#" v-if="o.status =='已收货'">申请开票</a>
                   </div>
               </div>
+          </div>
+          <div class="block">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="currentPage"
+              :page-sizes="[5, 10, 20]"
+              :page-size="5"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="count">
+            </el-pagination>
           </div>
       </div>
 
@@ -107,28 +119,37 @@ export default {
   data() {
     return {
       activeName: '所有订单',
-      orderList:[]
+      orderList:[],
+      currentPage:1,
+      pageSize:5,
+      count:0,
     };
   },
   methods: {
+    // 分页方法
+    handleSizeChange(data){
+      this.pageSize = data
+      this.getMyOrder()
+    },
+    handleCurrentChange(data){
+      this.currentPage = data
+      this.getMyOrder()
+    },
     handleClick(tab, event) {
       this.getMyOrder()
       console.log(tab, event);
     },
     getMyOrder(){
-      const order = {
-          userId:this.$cookies.get("token"),
-          orderStatus:this.activeName == "所有订单"?null:this.activeName
+      const data = {
+        currentPage:this.currentPage,
+        pageSize:this.pageSize
       }
-      axios({
-          method: 'post',
-          url: '/order/getMyOrder',
-          data:order
-      })
-      .then(res =>{
-          // console.log(res);
-          this.orderList = res.data.data
-      });
+      this.$store.dispatch("order/getAllOrder",data).then(res=>{
+        console.log(res);
+        this.orderList = res.data.data
+        this.count = res.data.count
+      }).catch(err=>{})
+      
     }
   },
   created() {
