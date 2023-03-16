@@ -8,6 +8,15 @@ export function login(data) {
   })
 }
 
+export function update(data) {
+  return request({
+    url: '/admin/update',
+    method: 'post',
+    data
+  })
+}
+
+
 export function getInfo(token) {
   return request({
     url: `/admin/queryById/${token}`,

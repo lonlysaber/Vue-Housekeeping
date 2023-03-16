@@ -1,0 +1,76 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/login/main",
+    "pages/sort/main",
+    "pages/mine/main",
+    "pages/order/main",
+    "pages/list/main",
+    "pages/search/main",
+    "pages/placeOrder/main",
+    "pages/setting/address/main",
+    "pages/setting/profile/main",
+    "pages/detail/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#42b983",
+    "navigationBarTitleText": "小洛家政",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar":{
+    "color": "#ADB4BE",
+    "selectedColor": "#42b983",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/index/main",
+        "text": "首页",
+        "iconPath":"./static/icon/home.png",
+        "selectedIconPath":"./static/icon/home-selected.png"
+      },
+      {
+        "pagePath": "pages/sort/main",
+        "text": "分类",
+        "iconPath":"./static/icon/class.png",
+        "selectedIconPath":"./static/icon/class-selected.png"
+      },
+      {
+        "pagePath": "pages/mine/main",
+        "text": "我的",
+        "iconPath":"./static/icon/mine.png",
+        "selectedIconPath":"./static/icon/mine-selected.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "van-button": "vant-weapp/dist/button/index",
+    "van-icon":"vant-weapp/dist/icon/index",
+    "van-image": "vant-weapp/dist/image/index",
+    "van-row": "vant-weapp/dist/row/index",
+    "van-col": "vant-weapp/dist/col/index",
+    "van-divider": "vant-weapp/dist/divider/index",
+    "van-sidebar": "vant-weapp/dist/sidebar/index",
+    "van-sidebar-item": "vant-weapp/dist/sidebar-item/index",
+    "van-card": "vant-weapp/dist/card/index",
+    "van-grid": "vant-weapp/dist/grid/index",
+    "van-grid-item": "vant-weapp/dist/grid-item/index",
+    "van-cell": "vant-weapp/dist/cell/index",
+    "van-cell-group": "vant-weapp/dist/cell-group/index",
+    "van-toast": "vant-weapp/dist/toast/index",
+    "van-tab": "vant-weapp/dist/tab/index",
+    "van-tabs": "vant-weapp/dist/tabs/index",
+    "van-notify": "vant-weapp/dist/notify/index",
+    "van-dialog": "vant-weapp/dist/dialog/index",
+    "van-rate": "vant-weapp/dist/rate/index",
+    "van-popup": "vant-weapp/dist/popup/index",
+    "van-area": "vant-weapp/dist/area/index",
+    "van-field": "vant-weapp/dist/field/index",
+    "van-panel": "vant-weapp/dist/panel/index",
+    "van-datetime-picker": "vant-weapp/dist/datetime-picker/index",
+    "van-tree-select": "vant-weapp/dist/tree-select/index",
+    "van-submit-bar": "vant-weapp/dist/submit-bar/index",
+    "van-goods-action": "vant-weapp/dist/goods-action/index",
+    "van-goods-action-button": "vant-weapp/dist/goods-action-button/index"
+  }
+}

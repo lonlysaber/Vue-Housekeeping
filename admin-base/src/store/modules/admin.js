@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/admin'
+import { login, logout, getInfo,update } from '@/api/admin'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -67,6 +67,38 @@ const actions = {
         resolve(data)
       }).catch(error => {
         reject(error)
+      })
+    })
+  },
+
+  update({ commit},data) {
+    return new Promise((resolve, reject) => {
+      update(data).then(res => {
+        resolve(res)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  updatePwd({ commit,state},data) {
+    return new Promise((resolve, reject) => {
+      console.log(state,data)
+      const admin = {adminName:state.name,adminPwd:data.oldPwd}
+      login(admin).then(res=>{
+        console.log(res)
+        // 密码验证成功
+        if(res.code==200){
+          const up = res.data
+          up.adminPwd = data.newPwd
+          update(up).then(res => {
+            resolve(res)
+          }).catch(err => {
+            reject(err)
+          })
+        }else{
+          reject(err)
+        }
       })
     })
   },
