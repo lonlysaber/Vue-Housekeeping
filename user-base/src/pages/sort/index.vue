@@ -1,8 +1,19 @@
 <template>
-  <div>
-    <van-tree-select main-active-class="selected-tab" :items="items" :main-active-index="mainActiveIndex" @clickNav="onClickNav">
+  <div class="sort">
+    <van-tree-select
+      main-active-class="selected-tab"
+      :items="items"
+      :main-active-index="mainActiveIndex"
+      @click-nav="onClickNav"
+      @clickItem="onClickItem"
+      >
+      <!-- @click-nav="onClickNav($event)" -->
+      <!-- @click="selectChange($event)" -->
       <div slot="content">
-        <div v-if="children.length===0" class="nodata">暂无数据</div>
+        {{ index }}
+      </div>
+      <div slot="content">
+        <div v-if="children.length === 0" class="nodata">暂无数据</div>
         <CommodityCard v-else :items="children" />
       </div>
     </van-tree-select>
@@ -10,70 +21,76 @@
 </template>
 
 <script>
-import { classList, sortCommodity } from '../../api/commodity'
-import { check } from '../../utils/check'
-import CommodityCard from '../../components/base/CommodityCard'
+import { classList, sortCommodity } from "../../api/commodity";
+import { check } from "../../utils/check";
+import CommodityCard from "../../components/base/CommodityCard";
 
 export default {
   components: {
-    CommodityCard
+    CommodityCard,
   },
-  data () {
+  data() {
     return {
       items: [],
       children: [],
-      mainActiveIndex: 0
-    }
+      mainActiveIndex: 0,
+      index:0,
+    };
   },
-  mounted () {
-    this.fetchData()
+  mounted() {
+    this.fetchData();
   },
+ 
   methods: {
-    fetchData () {
+    // 获取分类数据
+    fetchData() {
       classList()
-        .then(res => {
-          const classList = check(res.data)
-          this.items = classList.map(obj => {
-            const text = obj.className
-            const key = obj.key
+        .then((res) => {
+          const classList = check(res.data);
+          this.items = classList.map((obj) => {
+            const text = obj.serviceBigType;
+            const key = obj.serviceId;
+            const children = obj.serviceSmallType;
             return {
               text,
               disabled: false,
-              key
-            }
-          })
-          this.fetchList(this.items[0].text)
+              key,
+              children,
+            };
+          });
+          // this.fetchList(this.items[0].text)
+          this.children = this.items[0].children;
         })
-        .catch(err => {
-          console.log(err)
-        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    fetchList (className) {
-      sortCommodity(className)
-        .then(res => {
-          this.children = check(res.data)
-          this.children.forEach(obj => {
-            obj.show = obj.show.split(',')[0]
-          })
-          console.log()
-        })
-        .catch(err => {
-          console.log(err)
-        })
+    onClickNav(e) {
+      this.index  = e.mp.detail
+      console.log(e)
+  
+      console.log(this.children);
     },
-    onClickNav (e) {
-      const { index } = e.mp.detail
-      const className = this.items[index].text
-      this.fetchList(className)
+    onClickItem() {
+      console.log('clickitem')
+      return null;
     },
-    onClickItem () {}
-  }
-}
+    selectChange(e){
+      console.log(e)
+    }
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-.nodata{
+<style lang="scss">
+.sort {
+  height: 100%;
+}
+.sort .van-tree-select {
+  height: 100% !important;
+}
+.nodata {
   text-align: center;
-  margin-top:50%;
+  margin-top: 50%;
 }
 </style>

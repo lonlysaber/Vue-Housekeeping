@@ -1,12 +1,12 @@
 import { post } from '../utils/request'
 
-export function query (id) {
-  const url = '/order/query'
-  return post(url, {id})
+export function query (data) {
+  const url = '/order/queryCondition'
+  return post(url, data)
 }
 
 export function create (data) {
-  const url = '/order/create'
+  const url = '/order/add'
   return post(url, data)
 }
 
@@ -15,11 +15,7 @@ export function order (commodityID, openid) {
   return post(url, { commodityID, openid })
 }
 
-export function update (id, status) {
-  const url = '/order/update'
-  const data = {
-    id,
-    status
-  }
+export function update (data) {
+  const url = '/order/updateOrder'
   return post(url, data)
 }

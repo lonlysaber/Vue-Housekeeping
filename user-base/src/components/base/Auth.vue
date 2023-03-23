@@ -4,7 +4,7 @@
       <div class="auth-logo">
         <van-image round width="100" height="100" src="/static/icon/logo.png" />
       </div>
-      <div class="auth-info">小洛家政将会获取您的个人信息</div>
+      <div class="auth-info">南昌家政网将会获取您的个人信息</div>
       <button @getuserinfo="getUserInfo" open-type="getUserInfo" class="auth-confirm">确认授权</button>
     </div>
   </div>

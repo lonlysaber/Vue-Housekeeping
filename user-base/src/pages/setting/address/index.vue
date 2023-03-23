@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     fetchData () {
-      const openid = mpvue.getStorageSync('openid')
+      const openid = mpvue.getStorageSync('token')
       query(openid).then(res => {
         this.address = res.data.serviceAddress
         const arr = this.address.split(' ')
@@ -79,8 +79,8 @@ export default {
         Toast.fail('信息不能为空')
       } else {
         const address = `${this.province} ${this.city} ${this.area} ${this.place}`
-        const openid = mpvue.getStorageSync('openid')
-        updateAddress(openid, address).then(res => {
+        const openid = mpvue.getStorageSync('token')
+        updateAddress(openid, address).then(res => { 
           Notify({ type: 'success', message: '修改成功' })
           this.isEdit = false
           // eslint-disable-next-line no-undef

@@ -1,4 +1,5 @@
 {
+  "lazyCodeLoading":"requiredComponents",
   "pages": [
     "pages/index/main",
     "pages/login/main",
@@ -14,8 +15,8 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#42b983",
-    "navigationBarTitleText": "小洛家政",
+    "navigationBarBackgroundColor": "#3f4d8c",
+    "navigationBarTitleText": "南昌家政",
     "navigationBarTextStyle": "white"
   },
   "tabBar":{
@@ -50,6 +51,7 @@
     "van-row": "vant-weapp/dist/row/index",
     "van-col": "vant-weapp/dist/col/index",
     "van-divider": "vant-weapp/dist/divider/index",
+    "van-field": "@vant/weapp/field/index",
     "van-sidebar": "vant-weapp/dist/sidebar/index",
     "van-sidebar-item": "vant-weapp/dist/sidebar-item/index",
     "van-card": "vant-weapp/dist/card/index",

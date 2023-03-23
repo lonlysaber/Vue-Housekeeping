@@ -2,6 +2,7 @@ const { getToken } = require('./token')
 const Fly = require('flyio/dist/npm/wx')
 
 const fly = new Fly()
+const BASEURL = 'http://localhost:8086'
 
 fly.interceptors.request.use((request) => {
   if (getToken) {
@@ -22,7 +23,7 @@ function handleError (err) {
   console.log(err)
 }
 
-export function get (url, params = {}, baseUrl = 'https://yaoluolong.xyz:18082') {
+export function get (url, params = {}, baseUrl = BASEURL) {
   if (fly) {
     return new Promise((resolve, reject) => {
       fly.get(baseUrl + url, params).then(response => {
@@ -37,7 +38,7 @@ export function get (url, params = {}, baseUrl = 'https://yaoluolong.xyz:18082')
 }
 
 export function post (url, params = {}) {
-  const baseUrl = 'https://yaoluolong.xyz:18082'
+  const baseUrl = BASEURL
   if (fly) {
     return new Promise((resolve, reject) => {
       fly.post(baseUrl + url, params).then(response => {

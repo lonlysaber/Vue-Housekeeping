@@ -3,8 +3,8 @@
     <div class="profile-avatar">
       <van-image round width="80" height="80" fit="cover" :src="src" />
     </div>
-    <div class="profile-info">
-      <div class="profile-name">{{nickName}}</div>
+    <div class="profile-info"> 
+      <div class="profile-name" @click="toMyDetail">{{nickName}}</div>
       <div class="profile-account">{{account}}</div>
     </div>
   </div>
@@ -17,7 +17,7 @@ export default {
   data () {
     return {
       src: 'https://img.yzcdn.cn/vant/cat.jpeg',
-      nickName: '',
+      nickName: '登录/注册',
       account: ''
     }
   },
@@ -26,12 +26,22 @@ export default {
     this.fetchData()
   },
   methods: {
+    toMyDetail(){
+      const token = mpvue.getStorageSync('token')
+      if(token==""){
+        // 登录/注册
+        mpvue.navigateTo({url: `../login/main`})
+        // mpvue.navigateTo({url: `../placeOrder/main`})
+      }else{
+        mpvue.navigateTo({url: `../setting/profile/main`})
+      }
+    },
     fetchData () {
-      const openid = mpvue.getStorageSync('openid')
+      const openid = mpvue.getStorageSync('token')
       query(openid).then(res => {
-        this.src = res.data.avatar
-        this.nickName = res.data.nickName
-        this.account = res.data.customerID
+        // this.src = res.data.avatar
+        this.nickName = res.data.userName
+        this.account = res.data.userPhone
       })
     }
   }

@@ -45,7 +45,7 @@ export default {
     isGetToken () {
       const token = getToken()
       if (token.length === 0) {
-        mpvue.redirectTo({url: '../login/main'})
+        // mpvue.redirectTo({url: '../login/main'})
       }
     },
     fetchData () {

@@ -1,20 +1,21 @@
-import { post } from '../utils/request'
+import { post, get} from '../utils/request'
 
-export function create (id, openid, score, evaluate) {
-  const url = '/evaluate/create'
+export function create (data) {
+  const url = '/evaluate/add'
+
+  return post(url, data)
+}
+
+export function list (userId) {
+  const url = '/evaluate/queryCondition'
   const data = {
-    id,
-    openid,
-    score,
-    evaluate
+    userId
   }
   return post(url, data)
 }
 
-export function list (commodityID) {
-  const url = '/evaluate/queryList'
-  const data = {
-    commodityID
-  }
-  return post(url, data)
+export function query (orderId) {
+  const url = `/evaluate/queryById/${orderId}`
+  
+  return get(url)
 }

@@ -90,7 +90,7 @@ export default {
 <style lang="scss" scoped>
 .search-bar {
   padding: 15px 15.5px;
-  background: #42b983;
+  background: #3f4d8c;
   .search-bar-wrapper {
     display: flex;
     height: 40px;

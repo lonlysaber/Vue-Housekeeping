@@ -25,6 +25,7 @@
     <div v-if="!isEdit" class="body">
       <van-cell-group>
         <van-cell title="修改" is-link @click="isEdit=true" />
+        <van-button size="large" class="bottom-button" @click="logout" block>退出登录</van-button>
       </van-cell-group>
     </div>
     <div v-else class="buttom">
@@ -55,10 +56,10 @@ export default {
   },
   methods: {
     fetchData () {
-      const openid = mpvue.getStorageSync('openid')
+      const openid = mpvue.getStorageSync('token')
       query(openid).then(res => {
-        this.name = res.data.name
-        this.contact = res.data.contact
+        this.name = res.data.userName
+        this.contact = res.data.userPhone
       }).catch(err => {
         Toast.fail(err)
       })
@@ -67,7 +68,7 @@ export default {
       if (this.name === '' || this.contact === '' || this.name === null || this.contact === null) {
         Toast.fail('信息不能为空')
       } else {
-        const openid = mpvue.getStorageSync('openid')
+        const openid = mpvue.getStorageSync('token')
         updateProfile(openid, this.name, this.contact).then(res => {
           Notify({ type: 'success', message: '修改成功' })
           this.isEdit = false
@@ -91,6 +92,17 @@ export default {
     cancelEdit () {
       this.isEdit = false
       this.fetchData()
+    },
+    logout(){
+        mpvue.setStorage({
+          key: 'token',
+          data: ''
+        })
+        this.name = '登录/注册'
+        this.contact = ''
+        mpvue.switchTab({
+            url: "../../mine/main",
+        });
     }
   }
 }

@@ -2,15 +2,8 @@
   <div>
     <div style="margin:5px 0" v-for="(item,index) in items" :key="index">
       <van-card
-        lazy-load
-        :price="item.price"
-        :origin-price="item.promotionPrice"
-        :tag="item.promotionPrice===''||item.promotionPrice===null?'':'促销中'"
-        :desc="item.className"
-        :title="item.name"
-        :thumb="item.show"
-        thumb-mode="fit"
-      >
+        :title="item"
+        >
         <div slot="footer">
           <van-button type="primary" size="mini" @click="handleDetail(item.commodityID)">查看详情</van-button>
         </div>
@@ -29,17 +22,24 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      
+    }
   },
   computed: {
     list () {
       const arr = this.items
-      if (arr.length !== 0) {
-        arr.forEach(obj => {
-          obj.show = obj.show.split(',')[0]
-        })
-      }
       return arr
+    }
+  },
+  watch:{
+    children:{
+      handler(){
+        // this.items = this.children
+      },
+      deep:true,
+      immediate:true
+      
     }
   },
   methods: {
