@@ -12,6 +12,7 @@
 
 <script>
 import { query } from '../../api/customer'
+import { getToken } from '../../utils/token'
 export default {
   name: 'Profile',
   data () {
@@ -25,25 +26,25 @@ export default {
   mounted () {
     this.fetchData()
   },
+  beforeUpdate(){
+    this.fetchData()
+  },
   methods: {
     toMyDetail(){
-      const token = mpvue.getStorageSync('token')
+      const token = this.$store.getters.token
       if(token==""){
         // 登录/注册
         mpvue.navigateTo({url: `../login/main`})
-        // mpvue.navigateTo({url: `../placeOrder/main`})
+        this.fetchData()
       }else{
         mpvue.navigateTo({url: `../setting/profile/main`})
       }
     },
     fetchData () {
-      const openid = mpvue.getStorageSync('token')
-      query(openid).then(res => {
-        // this.src = res.data.avatar
-        this.nickName = res.data.userName
-        this.account = res.data.userPhone
-      })
-    }
+      const openid = this.$store.getters.token
+      this.nickName = this.$store.getters.name
+      this.account = this.$store.getters.phone
+    },
   }
 }
 </script>
@@ -52,7 +53,7 @@ export default {
 .profile-background {
   display: flex;
   padding: 40px 30px;
-  background: #42b983;
+  background: #3f4d8c;
   .profile-info {
     display: flex;
     flex-direction: column;

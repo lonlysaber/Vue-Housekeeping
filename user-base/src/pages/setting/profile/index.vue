@@ -34,13 +34,15 @@
     </div>
     <van-toast id="van-toast" />
     <van-notify id="van-notify" />
-  </div>
+  </div> 
 </template>
 
 <script>
 import Toast from 'vant-weapp/dist/toast/toast'
 import Notify from 'vant-weapp/dist/notify/notify'
 import { updateProfile, query } from '../../../api/customer'
+import { getToken } from '../../../utils/token'
+import { removeToken } from '../../../utils/auth'
 
 export default {
   data () {
@@ -56,7 +58,7 @@ export default {
   },
   methods: {
     fetchData () {
-      const openid = mpvue.getStorageSync('token')
+      const openid = this.$store.getters.token
       query(openid).then(res => {
         this.name = res.data.userName
         this.contact = res.data.userPhone
@@ -68,7 +70,7 @@ export default {
       if (this.name === '' || this.contact === '' || this.name === null || this.contact === null) {
         Toast.fail('信息不能为空')
       } else {
-        const openid = mpvue.getStorageSync('token')
+        const openid = this.$store.getters.token
         updateProfile(openid, this.name, this.contact).then(res => {
           Notify({ type: 'success', message: '修改成功' })
           this.isEdit = false
@@ -94,12 +96,7 @@ export default {
       this.fetchData()
     },
     logout(){
-        mpvue.setStorage({
-          key: 'token',
-          data: ''
-        })
-        this.name = '登录/注册'
-        this.contact = ''
+        this.$store.dispatch('user/logout')
         mpvue.switchTab({
             url: "../../mine/main",
         });

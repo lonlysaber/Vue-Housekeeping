@@ -51,7 +51,6 @@
     "van-row": "vant-weapp/dist/row/index",
     "van-col": "vant-weapp/dist/col/index",
     "van-divider": "vant-weapp/dist/divider/index",
-    "van-field": "@vant/weapp/field/index",
     "van-sidebar": "vant-weapp/dist/sidebar/index",
     "van-sidebar-item": "vant-weapp/dist/sidebar-item/index",
     "van-card": "vant-weapp/dist/card/index",

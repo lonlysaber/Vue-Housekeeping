@@ -304,7 +304,8 @@
 </template>
 
 <script>
-import { query, update } from '../../api/order'
+import { update } from '../../api/order'
+import { getOrder } from '../../api/wechat'
 import Notify from 'vant-weapp/dist/notify/notify'
 import EvaluateDialog from '../../components/mine/EvaluateDialog'
 import { check } from '../../utils/check'
@@ -330,12 +331,11 @@ export default {
   },
   methods: {
     fetchData () {
-      const openid = mpvue.getStorageSync('token')
+      const openid = this.$store.getters.token
       const data = {
         userId:openid
       }
-      query(data)
-        .then(res => {
+      getOrder(openid).then(res => {
           this.orderList = check(res.data)
           this.orderList.forEach(obj=>{
             obj.createTime = this.$moment(obj.createTime).format('YYYY-MM-DD HH:mm:ss')

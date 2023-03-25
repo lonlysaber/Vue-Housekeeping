@@ -43,7 +43,7 @@ export default {
       this.$router.push('../search/main')
     },
     isGetToken () {
-      const token = getToken()
+      const token = this.$store.getters.token
       if (token.length === 0) {
         // mpvue.redirectTo({url: '../login/main'})
       }

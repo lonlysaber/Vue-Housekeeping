@@ -1,7 +1,8 @@
 <template>
   <div class="loginForm">
     <van-cell-group>
-        <div>登录</div>
+        <div class="topCell">
+          <h1>登录</h1></div>
       <van-field
         :value="phone"
         label="手机号码"
@@ -12,11 +13,15 @@
         :value="password"
         label="登录密码"
         type="password"
+        password
         @change="changePassword"
       />
       <div class="bottonCell">
         <button @userLogin="userLogin" @click="userLogin" open-type="userLogin" 
         class="login-confirm">登录</button>
+      </div>
+      <div class="bottomCell">
+        <p>注册</p>
       </div>
     </van-cell-group> 
     <!-- <p>loginForm</p> -->
@@ -47,6 +52,8 @@ export default {
             userPwd:this.password
         }
         console.log(data)
+        this.phone = ''
+        this.password = ''
       this.$emit('userLogin', data)
     }
   },
@@ -54,4 +61,22 @@ export default {
 </script>
 
 <style scoped>
+.loginForm{
+  height: 100vh;
+}
+.loginForm .topCell{
+  text-align:center;
+  font-size: 24px;
+  margin: 5px;
+}
+.loginForm .bottomCell{
+  position:fixed;
+    bottom:0px;
+    width: 100%
+}
+.loginForm .bottomCell p{
+  width:80%;
+  margin:10px auto;
+  text-align:center
+}
 </style>

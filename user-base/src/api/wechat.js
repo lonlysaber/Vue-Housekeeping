@@ -33,26 +33,13 @@ export function getUserInfo (onSuccess, onFail) {
   })
 }
 
-export function login (userInfo, onSuccess, onFail) {
+export function login (userInfo) {
   const url = '/user/login'
   return post(url,userInfo)
   
 }
-function userLogin(data){
-  const url = '/user/login'
-  return post(url,data)
-}
-
-function getToken (data) {
-  const url = '/user/login'
-  return post(url, data)
-}
-
-function getOpenid (code) {
-  return get('/sns/jscode2session', {
-    appid: 'wx0a65fb15fae061c2',
-    secret: '8340a88507b7e24a7eec12550b51b7ea',
-    js_code: code,
-    grant_type: 'authorization_code'
-  }, 'https://api.weixin.qq.com')
+export function getOrder (userId) {
+  const url = `/user/getOrder/${userId}`
+  return get(url)
+  
 }

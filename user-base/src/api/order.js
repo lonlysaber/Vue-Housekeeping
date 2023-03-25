@@ -1,8 +1,12 @@
-import { post } from '../utils/request'
+import { post, get } from '../utils/request'
 
 export function query (data) {
   const url = '/order/queryCondition'
   return post(url, data)
+}
+export function queryById (id) {
+  const url = `/order/queryById/${id}`
+  return get(url)
 }
 
 export function create (data) {
