@@ -36,9 +36,36 @@ export function get (url, params = {}, baseUrl = BASEURL) {
     })
   }
 }
+export function getWeb (url, params = {}, baseUrl = '') {
+  if (fly) {
+    return new Promise((resolve, reject) => {
+      fly.get(baseUrl + url, params).then(response => {
+        resolve(response)
+      }).catch(err => {
+        console.log(err)
+        handleError(err)
+        reject(err)
+      })
+    })
+  }
+}
 
 export function post (url, params = {}) {
   const baseUrl = BASEURL
+  if (fly) {
+    return new Promise((resolve, reject) => {
+      fly.post(baseUrl + url, params).then(response => {
+        resolve(response)
+      }).catch(err => {
+        console.log(err)
+        handleError(err)
+        reject(err)
+      })
+    })
+  }
+}
+export function postWeb (url, params = {}) {
+  const baseUrl = ''
   if (fly) {
     return new Promise((resolve, reject) => {
       fly.post(baseUrl + url, params).then(response => {

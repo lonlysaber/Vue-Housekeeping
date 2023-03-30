@@ -1,4 +1,4 @@
-import { login} from '@/api/wechat'
+import { userLogin, keeperLogin} from '@/api/wechat'
 import { getToken, setToken, removeToken } from '@/utils/auth'
   
   
@@ -7,7 +7,8 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
       token: '',
       name: '登录/注册',
       avatar: '',
-      phone:''
+      phone:'',
+      type:''
     }
   }
   
@@ -33,20 +34,23 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
   
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
+    },
+    SET_TYPE: (state, type) => {
+      state.type = type
     }
   }
   
   const actions = {
     // 登录
-    login({ commit }, userInfo) {
+    userLogin({ commit }, userInfo) {
         const [userPhone, userPwd]   = [userInfo.userPhone,userInfo.userPwd]
         return new Promise((resolve, reject) => {
-        login({ userPhone: userPhone.trim(), userPwd: userPwd }).then(response => {
+        userLogin({ userPhone: userPhone.trim(), userPwd: userPwd }).then(response => {
           const { data } = response
           commit('SET_TOKEN', data.userId)
           commit('SET_NAME',data.userName)
           commit('SET_PHONE',data.userPhone)
-        //   setToken(data.userId)
+          commit('SET_TYPE','user')
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -54,6 +58,21 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
     })
     },
 
+    keeperLogin({ commit }, keeperInfo) {
+      const [keeperPhone, keeperPwd]   = [keeperInfo.keeperPhone,keeperInfo.keeperPwd]
+      return new Promise((resolve, reject) => {
+      keeperLogin({ keeperPhone: keeperPhone.trim(), keeperPwd: keeperPwd }).then(response => {
+        const { data } = response
+        commit('SET_TOKEN', data.keeperId)
+        commit('SET_NAME',data.keeperName)
+        commit('SET_PHONE',data.keeperPhone)
+        commit('SET_TYPE','keeper')
+        resolve(response)
+      }).catch(error => {
+        reject(error)
+      })
+  })
+  },
   
     // 登出
     logout({ commit, state }) {

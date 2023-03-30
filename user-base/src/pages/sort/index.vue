@@ -1,22 +1,20 @@
 <template>
   <div class="sort">
+    
     <van-tree-select
-      main-active-class="selected-tab"
-      :items="items"
+      v-if="type == 'user'"
+      :items="items "
       :main-active-index="mainActiveIndex"
-      @click-nav="onClickNav"
-      @clickItem="onClickItem"
-      >
-      <!-- @click-nav="onClickNav($event)" -->
-      <!-- @click="selectChange($event)" -->
-      <div slot="content">
-        {{ index }}
-      </div>
+      :active-id="activeId"
+      @clickNav="clickNav"
+      @click-item="onClickItem"
+    >
       <div slot="content">
         <div v-if="children.length === 0" class="nodata">暂无数据</div>
         <CommodityCard v-else :items="children" />
       </div>
     </van-tree-select>
+    <Appointment v-else></Appointment>
   </div>
 </template>
 
@@ -24,10 +22,12 @@
 import { classList, sortCommodity } from "../../api/commodity";
 import { check } from "../../utils/check";
 import CommodityCard from "../../components/base/CommodityCard";
+import Appointment from "../../components/base/Appointment";
 
 export default {
   components: {
     CommodityCard,
+    Appointment
   },
   data() {
     return {
@@ -35,22 +35,36 @@ export default {
       children: [],
       mainActiveIndex: 0,
       index:0,
+      activeId:[],
+      type:'user'
     };
   },
   mounted() {
     this.fetchData();
   },
- 
+  onShow(){
+    this.type = this.$store.getters.type || 'user'
+  },
   methods: {
+    onClick(e){
+      console.log(e,this.activeId)
+
+    },
     // 获取分类数据
     fetchData() {
-      classList()
-        .then((res) => {
+      classList().then((res) => {
           const classList = check(res.data);
+          let idx = 1
           this.items = classList.map((obj) => {
             const text = obj.serviceBigType;
-            const key = obj.serviceId;
-            const children = obj.serviceSmallType;
+            const key = idx;
+            const children = obj.serviceSmallType.map(item=>{
+              let id = idx++;
+              let title = item;
+              return{
+                id,title
+              }
+            });
             return {
               text,
               disabled: false,
@@ -58,6 +72,7 @@ export default {
               children,
             };
           });
+          console.log(this.items)
           // this.fetchList(this.items[0].text)
           this.children = this.items[0].children;
         })
@@ -65,11 +80,11 @@ export default {
           console.log(err);
         });
     },
-    onClickNav(e) {
-      this.index  = e.mp.detail
-      console.log(e)
+    clickNav(e) {
+      this.index  = e.mp.detail.index
+      this.mainActiveIndex = this.index
+      this.children =  this.items[this.index].children
   
-      console.log(this.children);
     },
     onClickItem() {
       console.log('clickitem')
@@ -84,7 +99,8 @@ export default {
 
 <style lang="scss">
 .sort {
-  height: 100%;
+  height: 100vh;
+  background-color: #fafafa;
 }
 .sort .van-tree-select {
   height: 100% !important;

@@ -68,6 +68,15 @@ export default {
       },
     };
   },
+  watch:{
+    show:{
+      handler:(newVal,oldVal)=>{
+        console.log(newVal,oldVal)
+        // this.isShow = newVal
+      },
+      immediate:true
+    }
+  },
   methods: {
     onChange(e) {
       this.form.score = e.mp.detail;

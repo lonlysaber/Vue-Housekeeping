@@ -2,10 +2,10 @@
   <div>
     <div style="margin:5px 0" v-for="(item,index) in items" :key="index">
       <van-card
-        :title="item"
+        :title="item.title"
         >
         <div slot="footer">
-          <van-button type="primary" size="mini" @click="handleDetail(item.commodityID)">查看详情</van-button>
+          <van-button type="primary" size="mini" @click="handleDetail(item.id)">查看详情</van-button>
         </div>
       </van-card>
     </div>
@@ -44,6 +44,7 @@ export default {
   },
   methods: {
     handleDetail (id) {
+      console.log(id)
       mpvue.navigateTo({url: '../detail/main?id=' + id})
     }
   }

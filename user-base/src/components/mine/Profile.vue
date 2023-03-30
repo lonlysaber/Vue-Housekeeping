@@ -26,8 +26,14 @@ export default {
   mounted () {
     this.fetchData()
   },
-  beforeUpdate(){
+  onShow(){
     this.fetchData()
+    // console.log('onshow')
+  },
+  beforeUpdate(){
+    // this.fetchData()
+    // console.log('onbeforeUpdate')
+
   },
   methods: {
     toMyDetail(){

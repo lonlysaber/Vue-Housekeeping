@@ -1,324 +1,61 @@
 <template>
   <div class="page-order">
     <van-tabs color="#42b983" :active="active">
-      <van-tab name="1" title="待付款">
-        <div v-if="orderList1.length===0" class="page-order-none">暂无该类型订单</div>
-        <div v-else>
-          <div v-for="(item,index) in orderList1" :key="index" style="margin:10px 0">
-            <van-card
-              :thumb="item.commodityAvatar"
-              thumb-mode="fit"
-              :price="item.money"
-              :title="item.service.serviceSmallType + item.service.serviceBigType"
-              :tag="item.statusDes"
-            >
-              <div slot="desc">
-                <div class="order-detail">
-                  <span class="order-detail-label">姓名:</span>
-                  <span class="order-detail-value">{{item.user.userName}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">联系方式:</span>
-                  <span class="order-detail-value">{{item.user.userPhone}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">服务日期:</span>
-                  <span class="order-detail-value">{{  item.timeSlotObj.end}}</span>
-                  <!-- <span class="order-detail-value">{{  $mount(item.timeSlotObj.end).format('YYYY-MM-DD HH:mm:ss')}}</span> -->
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">服务地址:</span>
-                  <span class="order-detail-value">{{item.user.userAddress}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">订单编号:</span>
-                  <span class="order-detail-value">{{item.orderId}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">下单日期:</span>
-                  <span class="order-detail-value">{{item.createTime }}</span>
-                </div>
-              </div>
-              <div slot="footer">
-                <van-button
-                  type="primary"
-                  v-if="item.statusDes==='待支付'"
-                  size="mini"
-                  @click="handlePayment(item.orderId)"
-                >付款</van-button>
-                <van-button
-                  type="danger"
-                  v-if="item.statusDes==='待支付'"
-                  size="mini"
-                  @click="handleCancel(item.orderId)"
-                >取消</van-button>
-                <van-button
-                  type="warning"
-                  v-if="item.statusDes==='待服务'"
-                  size="mini"
-                  @click="handleRefund(item.orderId)"
-                >申请退款</van-button>
-                <van-button
-                  type="primary"
-                  v-if="item.statusDes==='服务中'"
-                  size="mini"
-                  @click="handleSuccess(item.orderId)"
-                >确认完成</van-button>
-                <van-button
-                  v-if="item.statusDes==='待评价'"
-                  size="mini"
-                  @click="handleEvaluate(item.orderId,item.keeperId)"
-                >评价</van-button>
-              </div>
-            </van-card>
-          </div>
+      <van-tab v-for="(order,index) in orders" :name="order.name" :title="order.title" :key="index">
+        <div v-if="order.orderList.length === 0" class="page-order-none">
+          暂无数据
         </div>
-      </van-tab>
-      <van-tab name="2" title="待服务">
-        <div v-if="orderList2.length===0" class="page-order-none">暂无该类型订单</div>
-        <div v-else>
-          <div v-for="(item,index) in orderList2" :key="index" style="margin:10px 0">
-            <van-card
-              :thumb="item.commodityAvatar"
-              thumb-mode="fit"
-              :price="item.money"
-              :title="item.service.serviceSmallType + item.service.serviceBigType"
-              :tag="item.statusDes"
-            >
-              <div slot="desc">
-                <div class="order-detail">
-                  <span class="order-detail-label">姓名:</span>
-                  <span class="order-detail-value">{{item.user.userName}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">联系方式:</span>
-                  <span class="order-detail-value">{{item.user.userPhone}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">服务日期:</span>
-                  <span class="order-detail-value">{{ item.timeSlotObj.end}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">服务地址:</span>
-                  <span class="order-detail-value">{{item.user.userAddress}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">订单编号:</span>
-                  <span class="order-detail-value">{{item.orderId}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">下单日期:</span>
-                  <span class="order-detail-value">{{item.createTime }}</span>
-                </div>
-              </div>
-              <div slot="footer">
-                <van-button
-                  type="primary"
-                  v-if="item.statusDes==='待支付'"
-                  size="mini"
-                  @click="handlePayment(item.orderId)"
-                >付款</van-button>
-                <van-button
-                  type="danger"
-                  v-if="item.statusDes==='待支付'"
-                  size="mini"
-                  @click="handleCancel(item.orderId)"
-                >取消</van-button>
-                <van-button
-                  type="warning"
-                  v-if="item.statusDes==='待服务'"
-                  size="mini"
-                  @click="handleRefund(item.orderId)"
-                >申请退款</van-button>
-                <van-button
-                  type="primary"
-                  v-if="item.statusDes==='服务中'"
-                  size="mini"
-                  @click="handleSuccess(item.orderId)"
-                >确认完成</van-button>
-                <van-button
-                  v-if="item.statusDes==='待评价'"
-                  size="mini"
-                  @click="handleEvaluate(item.orderId,item.keeperId)"
-                >评价</van-button>
-              </div>
-            </van-card>
-          </div>
-        </div>
-      </van-tab>
-      <van-tab name="3" title="待评价">
-        <div v-if="orderList3.length===0" class="page-order-none">暂无该类型订单</div>
-        <div v-else>
-          <div v-for="(item,index) in orderList3" :key="index" style="margin:10px 0">
-            <van-card
-              :thumb="item.commodityAvatar"
-              thumb-mode="fit"
-              :price="item.money"
-              :title="item.service.serviceSmallType + item.service.serviceBigType"
-              :tag="item.statusDes"
-            >
-              <div slot="desc">
-                <div class="order-detail">
-                  <span class="order-detail-label">姓名:</span>
-                  <span class="order-detail-value">{{item.user.userName}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">联系方式:</span>
-                  <span class="order-detail-value">{{item.user.userPhone}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">服务日期:</span>
-                  <span class="order-detail-value">{{ item.timeSlotObj.end}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">服务地址:</span>
-                  <span class="order-detail-value">{{item.user.userAddress}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">订单编号:</span>
-                  <span class="order-detail-value">{{item.orderId}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">下单日期:</span>
-                  <span class="order-detail-value">{{item.createTime }}</span>
-                </div>
-              </div>
-              <div slot="footer">
-                <van-button
-                  type="primary"
-                  v-if="item.statusDes==='待支付'"
-                  size="mini"
-                  @click="handlePayment(item.orderId)"
-                >付款</van-button>
-                <van-button
-                  type="danger"
-                  v-if="item.statusDes==='待支付'"
-                  size="mini"
-                  @click="handleCancel(item.orderId)"
-                >取消</van-button>
-                <van-button
-                  type="warning"
-                  v-if="item.statusDes==='待服务'"
-                  size="mini"
-                  @click="handleRefund(item.orderId)"
-                >申请退款</van-button>
-                <van-button
-                  type="primary"
-                  v-if="item.statusDes==='服务中'"
-                  size="mini"
-                  @click="handleSuccess(item.orderId)"
-                >确认完成</van-button>
-                <van-button
-                  v-if="item.statusDes==='待评价'"
-                  size="mini"
-                  @click="handleEvaluate(item.orderId,item.keeperId)"
-                >评价</van-button>
-              </div>
-            </van-card>
-          </div>
-        </div>
-      </van-tab>
-      <van-tab name="4" title="全部订单">
-        <div v-if="orderList.length===0" class="page-order-none">暂无该类型订单</div>
-        <div v-else>
-          <div v-for="(item,index) in orderList" :key="index" style="margin:10px 0">
-            <van-card
-              :thumb="item.commodityAvatar"
-              thumb-mode="fit"
-              :price="item.money"
-              :title="item.service.serviceSmallType + item.service.serviceBigType"
-              :tag="item.statusDes"
-            >
-              <div slot="desc">
-                <div class="order-detail">
-                  <span class="order-detail-label">姓名:</span>
-                  <span class="order-detail-value">{{item.user.userName}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">联系方式:</span>
-                  <span class="order-detail-value">{{item.user.userPhone}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">服务日期:</span>
-                  <span class="order-detail-value">{{ item.timeSlotObj.end}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">服务地址:</span>
-                  <span class="order-detail-value">{{item.user.userAddress}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">订单编号:</span>
-                  <span class="order-detail-value">{{item.orderId}}</span>
-                </div>
-                <div class="order-detail">
-                  <span class="order-detail-label">下单日期:</span>
-                  <span class="order-detail-value">{{item.createTime }}</span>
-                </div>
-              </div>
-              <div slot="footer">
-                <van-button
-                  type="primary"
-                  v-if="item.statusDes==='待支付'"
-                  size="mini"
-                  @click="handlePayment(item.orderId)"
-                >付款</van-button>
-                <van-button
-                  type="danger"
-                  v-if="item.statusDes==='待支付'"
-                  size="mini"
-                  @click="handleCancel(item.orderId)"
-                >取消</van-button>
-                <van-button
-                  type="warning"
-                  v-if="item.statusDes==='待服务'"
-                  size="mini"
-                  @click="handleRefund(item.orderId)"
-                >申请退款</van-button>
-                <van-button
-                  type="primary"
-                  v-if="item.statusDes==='服务中'"
-                  size="mini"
-                  @click="handleSuccess(item.orderId)"
-                >确认完成</van-button>
-                <van-button
-                  v-if="item.statusDes==='待评价'"
-                  size="mini"
-                  @click="handleEvaluate(item.orderId,item.keeperId)"
-                >评价</van-button>
-                <van-button
-                  v-if="item.statusDes==='已评价'"
-                  size="mini"
-                  @click="handleLookEvaluate(item.orderId)"
-                >查看评价</van-button>
-              </div>
-            </van-card>
-          </div>
-        </div>
+        <OrderTab v-else @fetchData="fetchData" 
+          @handleLookEvaluate="handleLookEvaluate" 
+          @handleEvaluate="handleEvaluate"
+          @handleLookQRcode="handleLookQRcode"
+          :order="order"></OrderTab>
       </van-tab>
     </van-tabs>
-    <van-notify id="van-notify" />
-    <EvaluateDialog ref="evaluateDialog" 
-    :show="show" :isLook="isLook" :orderId="orderId" :keeperId="keeperId" 
-    @close="show=false" @success="evaluateSuccess(orderId)"/>
+    <EvaluateDialog
+      ref="evaluateDialog" :show="show" :isLook="isLook"
+      :orderId="orderId" :keeperId="keeperId"
+      @close="show = false"
+      @success="evaluateSuccess(orderId)"
+    />
+    <QRcode :QRshow="QRshow" :QRsrc="QRsrc" @close="QRshow = false"></QRcode>
   </div>
 </template>
 
 <script>
-import { update } from '../../api/order'
-import { getOrder } from '../../api/wechat'
-import Notify from 'vant-weapp/dist/notify/notify'
-import EvaluateDialog from '../../components/mine/EvaluateDialog'
+import { getUserOrder, getKeeperOrder } from '../../api/wechat'
+import EvaluateDialog from "../../components/mine/EvaluateDialog";
+import QRcode from "../../components/mine/QRcode.vue"
+import OrderTab from '../../components/mine/OrderTab'
+import { getQRcode } from "../../api/order";
 import { check } from '../../utils/check'
 
 export default {
-  components: { EvaluateDialog },
+  components: { OrderTab, EvaluateDialog, QRcode },
   data () {
     return {
-      show: false,
       orderId: '',
       keeperId:'',
-      isLook:false,
       active: 1,
+      show: false,
+      QRshow: false,
+      userTab:[ 
+              {status:'0',title:'待服务'},
+              {status:'2',title:'待付款'},
+              {status:'3',title:'待评价'},
+              {status:'',title:'全部订单'}
+              ],
+      keeperTab:[
+                {status:'0',title:'待服务'},
+                {status:'1',title:'服务中'},
+                {status:'6',title:'已评价'},
+                {status:'',title:'全部订单'}
+              ],
+      orders:[],
+      order1:{},
+      order2:{},
+      order3:{},
+      order4:{},
       orderList1: [],
       orderList2: [],
       orderList3: [],
@@ -330,129 +67,95 @@ export default {
     this.fetchData()
   },
   methods: {
-    fetchData () {
-      const openid = this.$store.getters.token
-      const data = {
-        userId:openid
-      }
-      getOrder(openid).then(res => {
-          this.orderList = check(res.data)
+    spliceData(res){
+      this.orderList = check(res.data)
           this.orderList.forEach(obj=>{
             obj.createTime = this.$moment(obj.createTime).format('YYYY-MM-DD HH:mm:ss')
             obj.timeSlotObj.end = this.$moment(obj.timeSlotObj.end).format('YYYY-MM-DD HH:mm:ss')
           })
-          console.log(this.orderList)
           this.orderList1 = []
           this.orderList2 = []
           this.orderList3 = []
           this.sortList(this.orderList)
+    },
+    fetchData () {
+      const openid = this.$store.getters.token || 0
+      const data = {
+        userId:openid
+      }
+      console.log(this.$store.getters.type)
+      if(this.$store.getters.type == 'user'){
+        getUserOrder(openid).then(res => {
+          this.spliceData(res)
         })
         .catch(err => {
           console.log(err)
         })
+      }else if(this.$store.getters.type == 'keeper'){
+        getKeeperOrder(openid).then(res=>{
+          this.spliceData(res)
+        })
+      }
+      
     },
     sortList (list) {
-      list.forEach(obj => {
-        if (obj.status == "2") {
+      let tabArr = []
+      if(this.$store.getters.type == 'user'){
+        tabArr = this.userTab
+        list.forEach(obj => {
+        if (obj.status == "0") {
           this.orderList1.push(obj)
         }
-        if (obj.status == '0') {
+        if (obj.status == '2') {
           this.orderList2.push(obj)
         }
         if (obj.status == "3") {
           this.orderList3.push(obj)
         }
       })
-    },
-    handlePayment (id) {
-      console.log(id)
-      const data  ={
-        orderId:id,
-        status:3
-      }
-      update(data)
-        .then(res => {
-          this.fetchData()
-          Notify({ type: 'success', message: '支付成功' })
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    handleCancel (id) {
-      console.log(id)
-      const data  ={
-        orderId:id,
-        status:4
-      }
-      update(data)
-        .then(res => {
-          this.fetchData()
-          Notify({ type: 'warning', message: '取消成功' })
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    handleRefund (id) {
-      console.log(id)
-      const data  ={
-        orderId:id,
-        status:5
-      }
-      update(data)
-        .then(res => {
-          this.fetchData()
-          Notify('成功提交退款申请')
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    handleSuccess (id) {
-      console.log(id)
-      const data  ={
-        orderId:id,
-        status:2
-      }
-      update(data)
-        .then(res => {
-          this.fetchData()
-          Notify({ type: 'success', message: '交易成功' })
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    handleEvaluate (orderId,keeperId) {
-      console.log(orderId)
-      this.orderId = orderId
-      this.keeperId = keeperId
-      this.show = true
-      this.isLook = false
-    },
-    handleLookEvaluate (orderId){
-      this.orderId = orderId
-      console.log(this.orderId)
-      this.show = true
-      this.isLook = true
-      this.$refs.evaluateDialog.lookEvaluate(this.orderId)
-    },
-    evaluateSuccess (id) {
-      console.log(id)
-      const data  ={
-        orderId:id,
-        status:6
-      }
-      update(data)
-        .then(res => {
-          this.fetchData()
-          Notify({ type: 'success', message: '评价成功' })
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      }else if(this.$store.getters.type == 'keeper'){
+       tabArr = this.keeperTab
+        list.forEach(obj => {
+        if (obj.status == "0") {
+          this.orderList1.push(obj)
+        }
+        if (obj.status == '1') {
+          this.orderList2.push(obj)
+        }
+        if (obj.status == "6") {
+          this.orderList3.push(obj)
+        }
+      })
     }
+      this.order1={name:'1',title:tabArr[0].title,orderList:this.orderList1}
+      this.order2={name:'2',title:tabArr[1].title,orderList:this.orderList2}
+      this.order3={name:'3',title:tabArr[2].title,orderList:this.orderList3}
+      this.order4={name:'4',title:tabArr[3].title,orderList:this.orderList}
+      this.orders = [].concat(this.order1,this.order2,this.order3,this.order4)
+    },
+    handleEvaluate(order) {
+      console.log(order.orderId);
+      this.orderId = order.orderId;
+      this.keeperId = order.keeperId;
+      this.show = true;
+      this.isLook = false;
+    },
+    handleLookEvaluate(order) {
+      this.orderId = order.orderId;
+      console.log(this.orderId);
+      this.show = true;
+      this.isLook = true;
+      this.$refs.evaluateDialog.lookEvaluate(this.orderId);
+    },
+    handleLookQRcode(order) {
+      this.orderId = order.orderId;
+      const timeSlotObj = JSON.parse(order.timeSlot)
+      const text = `${order.keeperId}.${timeSlotObj.start}.${timeSlotObj.end}`;
+      getQRcode(text).then((res) => {
+        this.QRsrc = `http://qr.api.cli.im/newqr/create?data=${text}&kid=cliim&key=c9ca98c9b7cb2e7678c9f5d1c9bfb0f3`;
+        this.QRshow = true;
+      });
+    },
   }
 }
 </script>

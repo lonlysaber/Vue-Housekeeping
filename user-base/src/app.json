@@ -46,6 +46,7 @@
   },
   "usingComponents": {
     "van-button": "vant-weapp/dist/button/index",
+    "van-calendar": "vant-weapp/dist/calendar/index",
     "van-icon":"vant-weapp/dist/icon/index",
     "van-image": "vant-weapp/dist/image/index",
     "van-row": "vant-weapp/dist/row/index",
@@ -65,6 +66,7 @@
     "van-dialog": "vant-weapp/dist/dialog/index",
     "van-rate": "vant-weapp/dist/rate/index",
     "van-popup": "vant-weapp/dist/popup/index",
+    "van-action-sheet": "vant-weapp/dist/action-sheet/index",
     "van-area": "vant-weapp/dist/area/index",
     "van-field": "vant-weapp/dist/field/index",
     "van-panel": "vant-weapp/dist/panel/index",

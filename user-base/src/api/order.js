@@ -1,4 +1,4 @@
-import { post, get } from '../utils/request'
+import { post, get, getWeb } from '../utils/request'
 
 export function query (data) {
   const url = '/order/queryCondition'
@@ -22,4 +22,9 @@ export function order (commodityID, openid) {
 export function update (data) {
   const url = '/order/updateOrder'
   return post(url, data)
+}
+
+export function getQRcode (text) {
+  const url = `https://cli.im/api/qrcode/code?text=${text}`
+  return getWeb(url)
 }
