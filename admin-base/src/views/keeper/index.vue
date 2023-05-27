@@ -296,12 +296,17 @@
         :total="clientData.length"
       >
       </el-pagination>
+      <OrderTable :OrderTableShow="OrderTableShow" :table="table"></OrderTable>
     </div>
   </div>
 </template>
   
   <script>
+import OrderTable from '@/components/OrderTable'
 export default {
+  components:{
+    OrderTable
+  },
   data() {
     return {
       searchID: "",
@@ -310,6 +315,8 @@ export default {
       searchClient: [],
       clientData: [],
       myhouseData: [],
+      OrderTableShow:false,
+      table:[],
       purchaseData: [],
       clientId: "",
       total: 0, //总条目数
@@ -443,21 +450,12 @@ export default {
 
     //查询用户订单
     queryPurchase(client) {
-      this.clientId = client.keeperId;
-      this.$axios({
-        url: "/client/queryPurchase", //请求的后台接口
-        method: "get", //get请求方式
-        params: {
-          clientId: this.clientId,
-        },
-      })
-        .then((response) => {
-          this.purchaseData = response.data.data;
-          this.dialogTableVisible1 = true;
+      this.$store
+        .dispatch("keeper/getOrder", client.keeperId)
+        .then((res) => {
+          this.OrderTableShow = true
+          this.table = res.data
         })
-        .catch((error) => {
-          console.log(error);
-        });
     },
 
     // 通过弹出框进行数据的提交修改

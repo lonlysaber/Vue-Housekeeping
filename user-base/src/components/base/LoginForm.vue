@@ -76,6 +76,10 @@ export default {
       password: "",
     };
   },
+  onShow(){
+    this.reLogin()
+
+  },
   methods: {
     changePhone(event) {
       // event.mp.detail 为当前输入的值
@@ -90,6 +94,7 @@ export default {
         userPwd: this.password,
         url:'user/userLogin'
       };
+      
       this.$emit("userLogin", data);
     },
     onClose() {

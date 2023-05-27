@@ -23,9 +23,8 @@ export function getAllKeeper(data) {
 }
 export function getOrder(data) {
   return request({
-    url: '/keeper/getOrder',
-    method: 'post',
-    data
+    url: `/keeper/getOrder/${data}`,
+    method: 'get',
   })
 }
 export function getAppointment(data) {

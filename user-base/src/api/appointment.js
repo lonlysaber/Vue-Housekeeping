@@ -1,18 +1,18 @@
 import { post, get} from '../utils/request'
 
-export function create (data) {
-  const url = '/evaluate/add'
+export function createAppointment (data) {
+  const url = '/appointment/add'
 
   return post(url, data)
 }
 
 export function list (data) {
-  const url = '/evaluate/queryCondition'
+  const url = '/appointment/queryCondition'
   return post(url, data)
 }
 
 export function query (evaluateId) {
-  const url = `/evaluate/queryById/${evaluateId}`
+  const url = `/appointment/queryById/${evaluateId}`
   return get(url)
 }
 

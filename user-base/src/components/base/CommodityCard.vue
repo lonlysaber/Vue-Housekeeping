@@ -44,8 +44,9 @@ export default {
   },
   methods: {
     handleDetail (id) {
-      console.log(id)
-      mpvue.navigateTo({url: '../detail/main?id=' + id})
+      // console.log(parseInt(id)+10000 )
+      this.$router.push("../keeperList/main?id=" + (parseInt(id)+10000 ));
+      // mpvue.navigateTo({url: '../detail/main?id=' + id})
     }
   }
 }

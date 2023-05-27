@@ -14,8 +14,11 @@
         <el-form-item label="服务人员">
           {{ o.keeper.keeperName }}
         </el-form-item>
-        <el-form-item label="用户密码">
-          {{ o.timeSloatObj.start }}
+        <el-form-item label="服务时间">
+          {{ o.timeSlotObj.start | datefmt("YYYY-MM-DD HH:mm:ss")}}
+        </el-form-item>
+        <el-form-item label="评论详情">
+          {{ o.evaluateDes}}
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -29,10 +32,12 @@
 <script>
 export default {
   name: "orderDetail",
-//   props: ["order"],
-//   model: {
-//     prop: "order",
-//   },
+  props: {
+    o:{
+      type:Object,
+      default:{user:{},keeper:{},timeSloatObj:{}}
+    }
+  },
   created() {
     // this.o = JSON.parse(this.order)
     // this.disOrderDetail = this.disOrderDetail;
@@ -51,15 +56,16 @@ export default {
     // },
     handleDis(order) {
       this.disOrderDetail = !this.disOrderDetail;
-        this.o = order
+      this.o = order
       console.log(order)
     },
+    updateConfirm(){
+      this.disOrderDetail = !this.disOrderDetail;
+    }
   },
   data() {
     return {
-      // o:{}
       disOrderDetail: false,
-      o:{}
     };
   },
 };

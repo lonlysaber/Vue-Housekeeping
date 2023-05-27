@@ -41,7 +41,6 @@ export function userLogin (userInfo) {
 export function keeperLogin (userInfo) {
   const url = '/keeper/login'
   return post(url,userInfo)
-  
 }
 export function getUserOrder (userId) {
   const url = `/user/getOrder/${userId}`
@@ -54,4 +53,9 @@ export function getKeeperOrder (keeperId) {
 export function queryKeeperById (keeperId) {
   const url = `/keeper/queryById/${keeperId}`
   return get(url)
+}
+
+export function keeperList (userInfo) {
+  const url = '/keeper/queryCondition'
+  return post(url,userInfo)
 }

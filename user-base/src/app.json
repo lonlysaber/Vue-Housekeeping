@@ -11,7 +11,12 @@
     "pages/placeOrder/main",
     "pages/setting/address/main",
     "pages/setting/profile/main",
-    "pages/detail/main"
+    "pages/setting/leaveWord/main",
+    "pages/detail/main",
+    "pages/keeperList/main",
+    "pages/appointment/main",
+    "pages/keeperDetail/main"
+
   ],
   "window": {
     "backgroundTextStyle": "light",

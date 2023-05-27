@@ -117,6 +117,8 @@ const actions = {
     })
   },
 
+  
+
   // remove token
   resetToken({ commit }) {
     return new Promise(resolve => {

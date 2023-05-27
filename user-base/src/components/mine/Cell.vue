@@ -4,6 +4,8 @@
       <van-group>
       <van-cell title="个人信息" url="../setting/profile/main" is-link icon="friends"/>
       <van-cell title="服务地址" url="../setting/address/main" is-link icon="map-marked"/>
+      <van-cell title="留言" url="../setting/leaveWord/main" is-link icon="chat"/>
+
     </van-group>
     </div>
   </div>

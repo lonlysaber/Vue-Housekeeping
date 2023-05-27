@@ -142,10 +142,9 @@ export default {
     },
     handleLookEvaluate(order) {
       this.orderId = order.orderId;
-      console.log(this.orderId);
       this.show = true;
       this.isLook = true;
-      this.$refs.evaluateDialog.lookEvaluate(this.orderId);
+      this.$refs.evaluateDialog.lookEvaluate(order.evaluateId);
     },
     handleLookQRcode(order) {
       this.orderId = order.orderId;

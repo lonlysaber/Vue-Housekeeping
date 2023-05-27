@@ -19,7 +19,8 @@ export default {
     return {
       src: 'https://img.yzcdn.cn/vant/cat.jpeg',
       nickName: '登录/注册',
-      account: ''
+      account: '',
+      
     }
   },
   components: {},
@@ -50,6 +51,7 @@ export default {
       const openid = this.$store.getters.token
       this.nickName = this.$store.getters.name
       this.account = this.$store.getters.phone
+      this.src = this.$store.getters.avatar || 'https://img.yzcdn.cn/vant/cat.jpeg'
     },
   }
 }

@@ -49,6 +49,8 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
           const { data } = response
           commit('SET_TOKEN', data.userId)
           commit('SET_NAME',data.userName)
+        commit('SET_AVATAR',data.userAvatar)
+
           commit('SET_PHONE',data.userPhone)
           commit('SET_TYPE','user')
           resolve(response)
@@ -65,6 +67,8 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
         const { data } = response
         commit('SET_TOKEN', data.keeperId)
         commit('SET_NAME',data.keeperName)
+        commit('SET_AVATAR',data.keeperAvatar)
+        
         commit('SET_PHONE',data.keeperPhone)
         commit('SET_TYPE','keeper')
         resolve(response)

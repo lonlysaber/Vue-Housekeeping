@@ -7,6 +7,7 @@ import user from './modules/user'
 import admin from './modules/admin'
 import keeper from './modules/keeper'
 import order from './modules/order'
+import leaveWord from './modules/leaveWord'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
     user,
     admin,
     keeper,
-    order
+    order,
+    leaveWord
   },
   getters
 })

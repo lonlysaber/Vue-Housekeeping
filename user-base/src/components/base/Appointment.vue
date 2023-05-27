@@ -22,27 +22,36 @@
       <div v-else>
         <div class="count">共{{ appointment.length }}天可预约</div>
         <div class="appointList">
-          <div v-for="(item, index) in appointment" :key="index" class="appointItem" >
-            <div class="dayTime">{{item.dayTime}}</div>
+          <div
+            v-for="(item, index) in appointment"
+            :key="index"
+            class="appointItem"
+          >
+            <div class="dayTime">{{ item.dayTime }}</div>
             <div class="houTime">
-                <div class="houTimeItem" v-for="(hItem,idx) in item.hourTime"
-                 :key="idx">
-                    
-                    <div class="timeSlot">
-                        <div class="service" @click="showService(index,idx)">
-                            {{ hItem.type }}
-                        </div>
-                        <div class="start" @click="onPick(hItem.start,index,idx)">
-                            {{ hItem.start }}
-                        </div>
-                        &nbsp;~&nbsp;
-                        <div class="end">{{ hItem.end }}</div>&nbsp;
-                        <div class="delete"><p  @click="deleteItem(index,idx)">X</p></div>
-                    </div>
+              <div
+                class="houTimeItem"
+                v-for="(hItem, idx) in item.hourTime"
+                :key="idx"
+              >
+                <div class="timeSlot">
+                  <!-- <div class="service" @click="showService(index, idx)">
+                    {{ hItem.type }}
+                  </div> -->
+                  <div class="start" @click="onPick(hItem.start, index, idx)">
+                    {{ hItem.start }}
+                  </div>
+                  &nbsp;~&nbsp;
+                  <div class="end">{{ hItem.end }}</div>
+                  &nbsp;
+                  <div class="delete">
+                    <p @click="deleteItem(index, idx)">X</p>
+                  </div>
                 </div>
-                <div class="handle">
-                   <div class="add" @click="add(index)">+添加时间段</div>
-                </div>
+              </div>
+              <div class="handle">
+                <div class="add" @click="add(index)">+添加时间段</div>
+              </div>
             </div>
           </div>
         </div>
@@ -50,95 +59,110 @@
     </div>
     <div class="nothing"></div>
     <div class="handleCell">
-        <button class="noCache" @click="noCache">不保存</button>
-        <button class="cache" @click="cache">保存</button>
+      <button class="noCache" @click="noCache">不保存</button>
+      <button class="cache" @click="cache">保存</button>
     </div>
     <van-action-sheet
-        :show="showType"
-        :actions="actions"
-        @close="showType = false"
-        @select="onSelect"
+      :show="showType"
+      :actions="actions"
+      @close="showType = false"
+      @select="onSelect"
     />
-    <van-action-sheet
-        :show="showPick"
-        @close="onClose"
-    >
-    <van-datetime-picker
-       type="time"
-       :value="pickDate"
-       :min-hour="minHour"
-       :max-hour="maxHour"
-       @input="onInput"
-       @confirm="onConfirm"
-       @cancel="showPick = false"
-    />
+    <van-action-sheet :show="showPick" @close="onClose">
+      <van-datetime-picker
+        type="time"
+        :value="pickDate"
+        :min-hour="minHour"
+        :max-hour="maxHour"
+        @input="onInput"
+        @confirm="onConfirm"
+        @cancel="showPick = false"
+      />
     </van-action-sheet>
-    
+    <van-toast id="van-toast" />
   </div>
 </template>
   
   <script>
 import { queryKeeperById } from "../../api/wechat";
+import Toast from "vant-weapp/dist/toast/toast";
 export default {
   name: "Appointment",
   data() {
     return {
       show: false,
       text: "",
-      keeperId: "",
+      keeperId: "10001",
       appointment: [
-        {dayTime:'2023年3月30日',
-        hourTime:[{start:'9:00',end:'13:00',type:'保姆'},{start:'14:00',end:'17:00',type:'保姆'}]},
-        {dayTime:'2023年3月31日',
-        hourTime:[{start:'9:00',end:'11:00',type:'保姆'},{start:'14:00',end:'17:00',type:'保姆'}]},
+        {
+          dayTime: "2023年5月21日",
+          hourTime: [
+            { start: "9:00", end: "13:00", type: "保姆" },
+            { start: "14:00", end: "17:00", type: "保姆" },
+          ],
+        },
+        {
+          dayTime: "2023年5月22日",
+          hourTime: [
+            { start: "9:00", end: "11:00", type: "保姆" },
+            { start: "14:00", end: "17:00", type: "保姆" },
+          ],
+        },
       ],
-      actions: [{ name: '保姆'}],
-      defaultDate: [1680105600000, 1680192000000],
-      timeObj: {start:'9:00',end:'11:00'},
-      showPick:false,
-      showType:false,
+      actions: [{ name: "保姆" }],
+      defaultDate: [1684598400000, 1684684800000],
+      timeObj: { start: "9:00", end: "11:00" },
+      showPick: false,
+      showType: false,
       minHour: 10,
       maxHour: 20,
-      pickDate: '12:00',
-      index1:0,
-      index2:0
+      pickDate: "12:00",
+      index1: 0,
+      index2: 0,
     };
   },
   created() {
     this.getAppointment();
+    console.log(JSON.stringify(this.appointment))
   },
   methods: {
-    timeFormat(e){
-        let oneHoue = 1000*60*60
-        let hour = parseInt(e/oneHoue)
-        let minute = parseInt((e % oneHoue)/1000/60) 
-        return `${hour}:${minute}`
+    onSelect(data) {
+      let result = data.map((item) => {
+        return item.getTime();
+      });
+      // console.log(result,'result')
     },
-    showService(index,idx){
-        this.showType = true
+    timeFormat(e) {
+      let oneHoue = 1000 * 60 * 60;
+      let hour = parseInt(e / oneHoue);
+      let minute = parseInt((e % oneHoue) / 1000 / 60);
+      return `${hour}:${minute}`;
     },
-    formatTime(arr){
-        arr.map(item=>{
-            item.dayTime = this.$moment(item.dayTime).format('YYYY-MM-DD')
-        })
-        return 
+    showService(index, idx) {
+      this.showType = true;
     },
-    add(index){
-        this.appointment[index].hourTime.push(this.timeObj)
+    formatTime(arr) {
+      arr.map((item) => {
+        item.dayTime = this.$moment(item.dayTime).format("YYYY-MM-DD");
+      });
+      return;
     },
-    deleteItem(index,idx){
-        console.log(index,idx)
-        this.appointment[index].hourTime.splice(idx,1)
-        console.log(this.appointment)
+    add(index) {
+      this.appointment[index].hourTime.push(this.timeObj);
     },
-    onPick(e,index,idx){
-        this.showPick = true
-        this.pickDate = e
-        this.index1 = index
-        this.index2 = idx
+    deleteItem(index, idx) {
+      console.log(index, idx);
+      this.appointment[index].hourTime.splice(idx, 1);
+      console.log(this.appointment);
+    },
+    onPick(e, index, idx) {
+      this.showPick = true;
+      this.pickDate = e;
+      this.index1 = index;
+      this.index2 = idx;
     },
     onSelect(event) {
-        console.log(event.mp.detail);
+      console.log(event.mp.detail);
     },
     onDisplay() {
       this.show = true;
@@ -149,12 +173,13 @@ export default {
       this.show = false;
       this.text = `选择了 ${event.mp.detail.length} 个日期`;
     },
-    onConfirm(){
-        this.showPick = false
+    onConfirm() {
+      this.showPick = false;
     },
     onInput(event) {
-        this.appointment[this.index1].hourTime[this.index2].start = event.mp.detail
-        console.log(event.mp.detail)
+      this.appointment[this.index1].hourTime[this.index2].start =
+        event.mp.detail;
+      console.log(event.mp.detail);
     },
     getAppointment() {
       this.keeperId = this.$store.getters.token || 10001;
@@ -162,6 +187,13 @@ export default {
         console.log(res);
       });
     },
+    noCache(){
+      Toast.success("取消保存!") 
+    },
+    cache(){
+      Toast.success("保存成功!") 
+
+    }
   },
 };
 </script>
@@ -169,8 +201,8 @@ export default {
 <style lang="scss" scoped>
 .appointment {
   background-color: #dadadc;
-  height: 100%;
-  .calen{
+  height: 100vh;
+  .calen {
     padding: 10px;
     height: 50vh;
   }
@@ -189,25 +221,25 @@ export default {
       text-align: center;
       margin: 10px 10px 0 10px;
       background-color: #fff;
-      padding: 10px;
-
+      // padding: 10px;
     }
     .appointItem {
       text-align: center;
       margin: 10px;
       background-color: #fff;
       padding: 10px;
-      .timeSlot{
+      .timeSlot {
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
       }
     }
   }
-  .nothing{
-    height: 60px;
+  .nothing {
+    height: 80px;
+    background-color: #dadadc;
   }
-  .handleCell{
+  .handleCell {
     position: fixed;
     bottom: 0;
     display: flex;
@@ -216,17 +248,15 @@ export default {
     width: 95%;
     flex-direction: row;
 
-    .noCache{
-        background-color:#f14f1d;
-        color:#fff;
-        width: 50%;
-
+    .noCache {
+      background-color: #f14f1d;
+      color: #fff;
+      width: 50%;
     }
-    .cache{
-        background-color: #6666f4;
-        color:#fff;
-        width: 50%;
-
+    .cache {
+      background-color: #6666f4;
+      color: #fff;
+      width: 50%;
     }
   }
 }

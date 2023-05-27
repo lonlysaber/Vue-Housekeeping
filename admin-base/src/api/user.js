@@ -23,9 +23,8 @@ export function getAllUser(data) {
 }
 export function getOrder(data) {
   return request({
-    url: '/user/getOrder',
-    method: 'post',
-    data
+    url: `/user/getOrder/${data}`,
+    method: 'get',
   })
 }
 export function getAppointment(data) {

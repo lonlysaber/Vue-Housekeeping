@@ -153,7 +153,7 @@
             </div>
           </div>
         </div>
-        <!-- <orderDetail ref="orderDetail" :order="orderDetail"></orderDetail> -->
+        <orderDetail ref="orderDetail" :o="orderDetail"></orderDetail>
       </div>
       <div v-else>
         <div style="text-align: center">
@@ -220,6 +220,7 @@ export default {
       })
     },
     handleDisOrder(order) {
+      this.orderDetail = order
       this.$refs.orderDetail.handleDis(order);
       // console.log(order)
     },

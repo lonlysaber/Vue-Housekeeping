@@ -88,71 +88,71 @@ export const constantRoutes = [
       meta: { title: '订单管理', icon: 'el-icon-s-order' }
     }]
   },
+  // {
+  //   path: '/newsmg',
+  //   component: Layout,
+  //   redirect: '/newsmg',
+  //   children: [{
+  //     path: '',
+  //     name: 'newsmg',
+  //     component: () => import('@/views/dashboard/index'),
+  //     meta: { title: '资讯管理', icon: 'el-icon-news' }
+  //   }]
+  // },
+  // {
+  //   path: '/needprocess',
+  //   component: Layout,
+  //   redirect: '/needprocess',
+  //   children: [{
+  //     path: '',
+  //     name: 'needprocess',
+  //     component: () => import('@/views/dashboard/index'),
+  //     meta: { title: '需求审核', icon: 'el-icon-chat-dot-square' }
+  //   }]
+  // },
   {
-    path: '/newsmg',
+    path: '/leaveWord',
     component: Layout,
-    redirect: '/newsmg',
+    redirect: '/leaveWord',
     children: [{
       path: '',
-      name: 'newsmg',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '资讯管理', icon: 'el-icon-news' }
+      name: 'leaveWord',
+      component: () => import('@/views/leaveWord/index'),
+      meta: { title: '留言处理', icon: 'el-icon-warning' }
     }]
   },
-  {
-    path: '/needprocess',
-    component: Layout,
-    redirect: '/needprocess',
-    children: [{
-      path: '',
-      name: 'needprocess',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '需求审核', icon: 'el-icon-chat-dot-square' }
-    }]
-  },
-  {
-    path: '/complainmg',
-    component: Layout,
-    redirect: '/complainmg',
-    children: [{
-      path: '',
-      name: 'complainmg',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: '反馈处理', icon: 'el-icon-warning' }
-    }]
-  },
-  {
-    path: '/incomeshow',
-    component: Layout,
-    redirect: '/incomeshow/table',
-    meta: { title: '收支展示', icon: 'el-icon-s-data' },
+  // {
+  //   path: '/incomeshow',
+  //   component: Layout,
+  //   redirect: '/incomeshow/table',
+  //   meta: { title: '收支展示', icon: 'el-icon-s-data' },
    
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'el-icon-pie-chart' }
-      }
-    ]
-  },
-  {
-    path: '/my',
-    component: Layout,
-    redirect: '/my',
-    children: [{
-      path: '',
-      name: 'my',
-      component: () => import('@/views/my/index'),
-      meta: { title: '个人中心', icon: 'user' }
-    }]
-  },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: () => import('@/views/table/index'),
+  //       meta: { title: 'Table', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { title: 'Tree', icon: 'el-icon-pie-chart' }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/my',
+  //   component: Layout,
+  //   redirect: '/my',
+  //   children: [{
+  //     path: '',
+  //     name: 'my',
+  //     component: () => import('@/views/my/index'),
+  //     meta: { title: '个人中心', icon: 'user' }
+  //   }]
+  // },
   
   
  

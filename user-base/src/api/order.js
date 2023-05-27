@@ -28,3 +28,16 @@ export function getQRcode (text) {
   const url = `https://cli.im/api/qrcode/code?text=${text}`
   return getWeb(url)
 }
+
+export function getAllAppointment (data) {
+  const url = '/appointment/queryCondition'
+  return post(url, data)
+}
+export function updateAppointment (data) {
+  const url = '/appointment//updateAppointment'
+  return post(url, data)
+}
+export function queryCondition (data) {
+  const url = '/order/queryCondition'
+  return post(url, data)
+}
